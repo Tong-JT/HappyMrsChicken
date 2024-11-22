@@ -2,7 +2,7 @@ let upgrades = null;
 
 async function load() {
     let upgradesContainer = document.getElementById("upgrades-container");
-    let theJSON = await fetch("upgrades.json");
+    let theJSON = await fetch("/assets/json/upgrades.json");
     upgrades = await theJSON.json();
 
     for (let i = 0; i < upgrades.length; i++) {
@@ -82,12 +82,12 @@ mrschicken.addEventListener('click', clickedMrsChicken);
 
 function clickedMrsChicken() {
     mrschicken.style.animation = 'pulse 0.1s ease';
-    mrschicken.src = "frame2.png";
+    mrschicken.src = "/assets/images/frame2.png";
     clickedMrsChickenIncreaseEgg();
     createEggAtClick(event);
     mrschicken.addEventListener('animationend', () => {
         mrschicken.style.animation = '';
-        mrschicken.src = "frame1.png";
+        mrschicken.src = "/assets/images/frame1.png";
     });
 }
 
@@ -96,7 +96,7 @@ function createEggAtClick(event) {
     let mouseY = event.pageY;
     let egg = document.createElement('div');
     egg.innerHTML = `
-        <img src="egg.png" class="egg" />
+        <img src="/assets/images/egg.png" class="egg" />
     `;
     let eggHorizontal = Math.random() * (28 - 8) + 8;
     egg.querySelector('img').style.left = `${mouseX - eggHorizontal}px`;
