@@ -1,0 +1,42 @@
+[{
+    "key" : 0,
+    "name" : "Chicken",
+    "rate" : 0.1,
+    "cost" : 15,
+    "number" : 0
+},
+{
+    "key" : 1,
+    "name" : "Nest Box",
+    "rate" : 1,
+    "cost" : 100,
+    "number" : 0
+},
+{
+    "key" : 2,
+    "name" : "Chicken Coop",
+    "rate" : 8,
+    "cost" : 1100,
+    "number" : 0
+},
+{
+    "key" : 3,
+    "name" : "Barn",
+    "rate" : 47,
+    "cost" : 12000,
+    "number" : 0
+},
+{
+    "key" : 4,
+    "name" : "Chicken Farm",
+    "rate" : 260,
+    "cost" : 130000,
+    "number" : 0
+},
+{
+    "key" : 5,
+    "name" : "Battery Farm",
+    "rate" : 1400,
+    "cost" : 1400000,
+    "number" : 0
+}]
