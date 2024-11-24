@@ -1,42 +1,63 @@
-[{
-    "key" : 0,
-    "name" : "Chicken",
-    "rate" : 0.1,
-    "cost" : 15,
-    "number" : 0
-},
 {
-    "key" : 1,
-    "name" : "Nest Box",
-    "rate" : 1,
-    "cost" : 100,
-    "number" : 0
-},
-{
-    "key" : 2,
-    "name" : "Chicken Coop",
-    "rate" : 8,
-    "cost" : 1100,
-    "number" : 0
-},
-{
-    "key" : 3,
-    "name" : "Barn",
-    "rate" : 47,
-    "cost" : 12000,
-    "number" : 0
-},
-{
-    "key" : 4,
-    "name" : "Chicken Farm",
-    "rate" : 260,
-    "cost" : 130000,
-    "number" : 0
-},
-{
-    "key" : 5,
-    "name" : "Battery Farm",
-    "rate" : 1400,
-    "cost" : 1400000,
-    "number" : 0
-}]
+    "Chicken": {
+      "rate": 0.1,
+      "cost": 15,
+      "levels": {
+        "1": 100,
+        "2": 500,
+        "3": 10000,
+        "4": "Max level reached"
+      }
+    },
+    "Nest Box": {
+      "rate": 1,
+      "cost": 100,
+      "levels": {
+        "1": 1000,
+        "2": 5000,
+        "3": 50000,
+        "4": "Max level reached"
+      }
+    },
+    "Henhouse": {
+      "rate": 8,
+      "cost": 1100,
+      "levels": {
+        "1": 11000,
+        "2": 55000,
+        "3": 550000,
+        "4": "Max level reached"
+      }
+    },
+    "Barnyard": {
+      "rate": 47,
+      "cost": 12000,
+      "levels": {
+        "1": 120000,
+        "2": 600000,
+        "3": 6000000,
+        "4": "Max level reached"
+      }
+    },
+    "Chicken Farm": {
+      "rate": 260,
+      "cost": 130000,
+      "levels": {
+        "1": 1300000,
+        "2": 6500000,
+        "3": 65000000,
+        "4": "Max level reached"
+      }
+    },
+    "Factory Farm": {
+      "rate": 1400,
+      "cost": 1400000,
+      "levels": {
+        "1": 14000000,
+        "2": 70000000,
+        "3": 700000000,
+        "4": "Max level reached"
+      }
+    }
+  }
+  

@@ -13,12 +13,32 @@
 
     <body>
         <main>
-            <div id="stats">
-                <h3 class="section-title">Stats</h3>
-                <h4 class="item-title">Rate</h4>
-                <p id="egg-rate-text"><span id="egg-rate">0.0</span> eggs per second</p>
-                <h4 class="item-title">Grand total</h4>
-                <p id="egg-rate-text"><span id="egg-total">0.0</span> eggs</p>
+            <div class="popup-overlay" id="popupOverlay">
+                <div class="settings-menu" id="popup">
+                <div class="settings-header"> 
+                    <h1 id="settings-header-text"><span >Settings</span></h1>
+                    <span class="close" id="closePopup">&times;</span>
+                </div>
+                    
+                    <div class="popup-content">
+                        <p>Welcome to our website!</p>
+                        <p>Sign up to receive exclusive offers:</p>
+                    </div>
+                </div>
+            </div>
+            <div id="left-bar">
+                <div id="stats">
+                    <h3 class="section-title">Stats</h3>
+                    <h4 class="item-title">Rate</h4>
+                    <p id="egg-rate-text"><span id="egg-rate">0.0</span> eggs per second</p>
+                    <h4 class="item-title">Clicks</h4>
+                    <p id="egg-rate-text"><span id="click-rate">1</span> eggs per click</p>
+                    <h4 class="item-title">Grand total</h4>
+                    <p id="egg-rate-text"><span id="egg-total">0.0</span> eggs</p>
+                </div>
+                <div>
+                    <img src="/assets/images/settings.png" id="settings" draggable="false">
+                </div>
             </div>
             <div id="main-bit">
                 <h1 id="title-text"><span >Happy Mrs Chicken</span></h1>
@@ -26,12 +46,12 @@
                 <div id="chicken-container">
                     <img src="/assets/images/frame1.png" id="mrschicken" draggable="false">
                     <div id="background"></div>
+                    <div id="background2"></div>
                 </div>
             </div>
             <div id="sidebar">
                 <h3 class="section-title">Upgrades</h3>
                 <div id="upgrades-container">
-
                 </div>
             </div>
         </main>

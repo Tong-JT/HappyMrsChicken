@@ -1,31 +1,53 @@
+import { initializeSettingsPopup } from './settings.js';
+import { createEggAtClick } from './miniegg.js';
+
+initializeSettingsPopup();
+
 let upgrades = null;
+
 
 async function load() {
     let upgradesContainer = document.getElementById("upgrades-container");
     let theJSON = await fetch("/assets/json/upgrades.json");
     upgrades = await theJSON.json();
+    console.log(upgrades);
 
-    for (let i = 0; i < upgrades.length; i++) {
-        let upgrade = upgrades[i]
+    for (let upgradeKey in upgrades) {
+        let upgrade = upgrades[upgradeKey];
+
         let upgradeCard = `
-        <div class="upgrade-button" id="button-${upgrade.key}">
-            <div class="left">
-                <h4 class="upgrade-name">${upgrade.name}<span class="upgrade-rate">${upgrade.rate}</span></h4>
-                <p class="upgrade-cost-text"><span class="upgrade-cost"> ${upgrade.cost} </span> eggs</p>
+        <div class="unit">
+                    <div class="multiplier-block">
+                <p class="multiplier-text"  id="level-${upgradeKey}"><span class="multiplier">1</span></p>
             </div>
-            <div class="right">
-                <p class="bought-number">${upgrade.number}</p>
+            <div class="upgrade-button" id="button-${upgradeKey}">
+                <div class="left">
+                    <h4 class="upgrade-name">${upgradeKey} <span class="upgrade-rate">${upgrade.rate}</span></h4>
+                    <p class="upgrade-cost-text"><span class="upgrade-cost"> ${upgrade.cost} </span> eggs</p>
+                </div>
+                <div class="right">
+                    <p class="bought-number">0</p>
+                </div>
             </div>
+
         </div>
-        `
+        `;
         upgradesContainer.innerHTML += upgradeCard;
     }
-    for (let j of document.getElementsByClassName("upgrade-button")) {
-        j.addEventListener("click", clickedButton)
+
+    for (let j of document.getElementsByClassName("unit")) {
+        let upgradeButton = j.querySelector(".upgrade-button");
+        let multiplierText = j.querySelector(".multiplier-block");
+
+        upgradeButton.addEventListener("click", clickedButton);
+        upgradeButton.addEventListener("mouseover", hoverInfo);
+        multiplierText.addEventListener("click", increaseMultiplier);
+        multiplierText.addEventListener("mouseover", hoverMultiplierPrice);
     }
 }
 
 load()
+
 
 let eggcount = document.getElementById("egg-count");
 let eggrate = document.getElementById("egg-rate");
@@ -33,9 +55,94 @@ let eggtotal = document.getElementById("egg-total");
 
 setInterval(addEggs, 1000);
 
+function increaseMultiplier() {
+
+    let multiplierText = this;
+    let multiplierValue = parseInt(multiplierText.querySelector('.multiplier').innerText);
+    let unitElement = multiplierText.querySelector('.multiplier-text');
+    let upgradeKey = unitElement.id.split('-')[1];
+    let upgrade = upgrades[upgradeKey];
+    let currentEggCount = parseInt(eggcount.innerText);
+    let currentLevelPrice = upgrade.levels[multiplierValue];
+
+    if ((multiplierValue < 4) && (currentEggCount >= currentLevelPrice)) {
+        
+        multiplierValue++;
+        multiplierText.querySelector('.multiplier').innerText = multiplierValue;
+        boughtUpgrade(currentLevelPrice);
+
+        if (upgradeKey === "Chicken") {
+            let clickRateElement = document.getElementById("click-rate");
+            let currentClickRate = parseFloat(clickRateElement.innerText);
+            let newClickRate = currentClickRate * 2;
+            clickRateElement.innerText = newClickRate;
+        }
+
+        if (multiplierValue == 4) {
+            this.closest('.multiplier-block').style.backgroundColor = "#f0d71a";
+            this.closest('.multiplier-block').querySelector('.multiplier-text').style.color = "#E97451";
+        }
+
+        increaseRate();
+
+        this.style.animation = 'pulse-menu 0.3s linear';
+        this.addEventListener('animationend', () => {
+            this.style.animation = '';
+        });
+    }
+}
+
+function hoverMultiplierPrice() {
+    let multiplierText = this;
+    let multiplierValue = parseInt(multiplierText.querySelector('.multiplier').innerText);
+    let unitElement = multiplierText.querySelector('.multiplier-text');
+    let upgradeKey = unitElement.id.split('-')[1];
+    let upgrade = upgrades[upgradeKey];
+    let level = multiplierValue;
+    let levelPrice = upgrade.levels[level];
+    let hoverBox = document.createElement('div');
+    hoverBox.className = 'hover-box';
+    hoverBox.innerHTML = 
+        `<p class="hover-item">${upgradeKey} - Level ${level} </p>
+        <p class="hover-item">Multiplier: ${Math.pow(2,(level)-1)}x </p>
+        <p class="hover-item">Next level: ${levelPrice} eggs</p>`;
+    this.closest('.multiplier-block').appendChild(hoverBox);
+    multiplierText.addEventListener('mouseout', function() {
+        hoverBox.remove();
+    });
+}
+
+function hoverInfo() {
+    let upgradeButton = this;
+    let itemNumber = upgradeButton.getElementsByClassName("bought-number")[0];
+    let itemRate = upgradeButton.getElementsByClassName("upgrade-rate")[0];
+    let multiplierValue = parseInt(upgradeButton.parentNode.querySelector('.multiplier').innerText);
+    let eggRate = parseFloat(eggrate.innerText);
+
+    let ratePercentage = 0;
+    let totalRate = parseFloat(itemRate.innerText) * parseInt(itemNumber.innerText) * (Math.pow(2, multiplierValue-1));
+    if (parseInt(itemNumber.innerText) > 0) {
+        ratePercentage = (totalRate / eggRate) * 100;
+    }
+
+    let hoverBox = document.createElement('div');
+    hoverBox.className = 'hover-box';
+    hoverBox.innerHTML = `
+        <p class="hover-item">Eggs per second: ${itemRate.innerText}</p>
+        <p class="hover-item">Upgrades bought: ${itemNumber.innerText}</p>
+        <p class="hover-item">Total eggs per second: ${totalRate.toFixed(1)}</p>
+        <p class="hover-item">% of total rate: ${ratePercentage.toFixed(1)}%</p>
+    `;
+
+    upgradeButton.getElementsByClassName('right')[0].appendChild(hoverBox);
+    upgradeButton.addEventListener('mouseout', function() {
+        hoverBox.remove();
+    });
+}
+
+
 function clickedButton() {
     let upgradeButton = this;
-    console.log(upgradeButton.innerHTML)
     let itemNumber = upgradeButton.getElementsByClassName("bought-number")[0];
     let currentUpgradeCount = parseInt(itemNumber.innerText);
     let itemPrice = upgradeButton.getElementsByClassName("upgrade-cost")[0];
@@ -45,8 +152,8 @@ function clickedButton() {
     if (currentPrice <= currentEggCount) {
         itemNumber.innerText = currentUpgradeCount + 1;
         increasePrice(this);
-        increaseRate(this);
-        upgradeButton.style.animation = 'pulse-menu 0.1s ease';
+        increaseRate();
+        upgradeButton.style.animation = 'pulse-menu 0.3s linear';
         upgradeButton.addEventListener('animationend', () => {
             upgradeButton.style.animation = '';
         });
@@ -70,12 +177,20 @@ function increasePrice(upgradeButton) {
     itemPrice.innerText = newPrice;
 }
 
-function increaseRate(upgradeButton) {
-    let itemRate = upgradeButton.getElementsByClassName("upgrade-rate")[0];
-    let currentEggRate = parseFloat(itemRate.innerText);
-    let eggRate = parseFloat(eggrate.innerText);
-    eggrate.innerText = (eggRate + currentEggRate).toFixed(1);
+function increaseRate() {
+    let totalRate = 0;
+    
+    for (let upgradeKey in upgrades) {
+        let upgrade = upgrades[upgradeKey];
+        let upgradeButton = document.getElementById(`button-${upgradeKey}`);
+        let boughtAmount = parseInt(upgradeButton.getElementsByClassName("bought-number")[0].innerText);
+        let multiplierValue = parseInt(document.getElementById(`level-${upgradeKey}`).querySelector('.multiplier').innerText);
+        totalRate += boughtAmount * upgrade.rate * Math.pow(2, (multiplierValue-1));
+    }
+    eggrate.innerText = totalRate.toFixed(1);
 }
+
+
 
 let mrschicken = document.getElementById("mrschicken");
 mrschicken.addEventListener('click', clickedMrsChicken);
@@ -91,27 +206,13 @@ function clickedMrsChicken() {
     });
 }
 
-function createEggAtClick(event) {
-    let mouseX = event.pageX;
-    let mouseY = event.pageY;
-    let egg = document.createElement('div');
-    egg.innerHTML = `
-        <img src="/assets/images/egg.png" class="egg" />
-    `;
-    let eggHorizontal = Math.random() * (28 - 8) + 8;
-    egg.querySelector('img').style.left = `${mouseX - eggHorizontal}px`;
-    egg.querySelector('img').style.top = `${mouseY + 2}px`;
-    document.body.appendChild(egg);
-    egg.addEventListener('animationend', () => {
-        egg.remove();
-    });
-}
-
 function clickedMrsChickenIncreaseEgg() {
+    let clickrate = document.getElementById("click-rate");
+    let clickRate = parseInt(clickrate.innerText);
     let currentEggCount = parseFloat(eggcount.innerText);
-    eggcount.innerText = (currentEggCount + 1).toFixed(1);
+    eggcount.innerText = (currentEggCount + clickRate).toFixed(1);
     let currentEggTotal = parseFloat(eggtotal.innerText);
-    eggtotal.innerText = (currentEggTotal + 1).toFixed(1);
+    eggtotal.innerText = (currentEggTotal + clickRate).toFixed(1);
 }
 
 function boughtUpgrade(cost) {
