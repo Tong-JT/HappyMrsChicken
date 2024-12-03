@@ -5,7 +5,6 @@ initializeSettingsPopup();
 
 let upgrades = null;
 
-
 async function load() {
     let upgradesContainer = document.getElementById("upgrades-container");
     let theJSON = await fetch("/assets/json/upgrades.json");
@@ -46,8 +45,7 @@ async function load() {
     }
 }
 
-load()
-
+load();
 
 let eggcount = document.getElementById("egg-count");
 let eggrate = document.getElementById("egg-rate");
@@ -55,8 +53,77 @@ let eggtotal = document.getElementById("egg-total");
 
 setInterval(addEggs, 1000);
 
-function increaseMultiplier() {
+function getRandomGoldenEggTime() {
+    return Math.random()  * (300000 - 180000) + 180000;
+}
 
+function createGoldenEgg() {
+    let xPos = Math.random() * (screen.width - 0) + 0;
+    let yPos = Math.random() * (screen.height - 0) + 0;
+    let egg = document.createElement('div');
+    egg.innerHTML = `<img src="/assets/images/goldenegg.png" class="golden-egg" />`;
+    egg.querySelector('img').style.left = `${xPos}px`;
+    egg.querySelector('img').style.top = `${yPos}px`;
+    document.body.appendChild(egg);
+
+    let eggDespawnTime = 15000;
+    let despawnTimer = setTimeout(() => egg.remove(), eggDespawnTime);
+
+    egg.addEventListener('click', () => {
+        clearTimeout(despawnTimer);
+        egg.remove();
+        let randomEvent = Math.floor(Math.random() * 3);
+
+        if (randomEvent === 0) {
+            goldClickFixedEggs();
+        } else if (randomEvent === 1) {
+            goldClickRateFrenzy();
+        } else {
+            goldClickClickFrenzy();
+        }
+    });
+
+    setTimeout(createGoldenEgg, getRandomGoldenEggTime());
+}
+
+function goldClickFixedEggs() {
+    let currentEggCount = parseFloat(eggcount.innerText);
+    let eggBonus = currentEggCount * (Math.random() * (0.3 - 0.1) + 0.1);
+    eggcount.innerText = (currentEggCount + eggBonus).toFixed(1);
+    let currentEggTotal = parseFloat(eggtotal.innerText);
+    eggtotal.innerText = (currentEggTotal + eggBonus).toFixed(1);
+    console.log("click fixed")
+}
+
+
+let originalClickRate = parseFloat(document.getElementById("click-rate").innerText);
+let globalMultiplier = 1;
+
+function goldClickRateFrenzy() {
+    globalMultiplier = 3;
+    console.log("rate frenzy");
+    increaseRate();
+
+    setTimeout(() => {
+        globalMultiplier = 1;
+        increaseRate();
+    }, 15000);
+}
+
+
+function goldClickClickFrenzy() {
+    let newClickRate = originalClickRate * 7;
+    document.getElementById("click-rate").innerText = newClickRate.toFixed(1);
+    console.log("click frenzy");
+
+    setTimeout(() => {
+        document.getElementById("click-rate").innerText = originalClickRate.toFixed(1);
+    }, 10000);
+}
+
+createGoldenEgg();
+
+function increaseMultiplier() {
     let multiplierText = this;
     let multiplierValue = parseInt(multiplierText.querySelector('.multiplier').innerText);
     let unitElement = multiplierText.querySelector('.multiplier-text');
@@ -66,7 +133,6 @@ function increaseMultiplier() {
     let currentLevelPrice = upgrade.levels[multiplierValue];
 
     if ((multiplierValue < 4) && (currentEggCount >= currentLevelPrice)) {
-        
         multiplierValue++;
         multiplierText.querySelector('.multiplier').innerText = multiplierValue;
         boughtUpgrade(currentLevelPrice);
@@ -128,7 +194,7 @@ function hoverInfo() {
     let hoverBox = document.createElement('div');
     hoverBox.className = 'hover-box';
     hoverBox.innerHTML = `
-        <p class="hover-item">Eggs per second: ${itemRate.innerText}</p>
+        <p class="hover-item">Eggs per second: ${itemRate.innerText}  (x${Math.pow(2, multiplierValue-1)})</p>
         <p class="hover-item">Upgrades bought: ${itemNumber.innerText}</p>
         <p class="hover-item">Total eggs per second: ${totalRate.toFixed(1)}</p>
         <p class="hover-item">% of total rate: ${ratePercentage.toFixed(1)}%</p>
@@ -139,7 +205,6 @@ function hoverInfo() {
         hoverBox.remove();
     });
 }
-
 
 function clickedButton() {
     let upgradeButton = this;
@@ -166,7 +231,6 @@ function addEggs() {
     let eggTotal = parseFloat(eggtotal.innerText);
     eggcount.innerText = (currentEggCount + eggRate).toFixed(1);
     eggtotal.innerText = (eggTotal + eggRate).toFixed(1);
-    console.log(eggcount.innerText);
 }
 
 function increasePrice(upgradeButton) {
@@ -185,12 +249,10 @@ function increaseRate() {
         let upgradeButton = document.getElementById(`button-${upgradeKey}`);
         let boughtAmount = parseInt(upgradeButton.getElementsByClassName("bought-number")[0].innerText);
         let multiplierValue = parseInt(document.getElementById(`level-${upgradeKey}`).querySelector('.multiplier').innerText);
-        totalRate += boughtAmount * upgrade.rate * Math.pow(2, (multiplierValue-1));
+        totalRate += (boughtAmount * upgrade.rate * Math.pow(2, (multiplierValue-1)))*globalMultiplier;
     }
     eggrate.innerText = totalRate.toFixed(1);
 }
-
-
 
 let mrschicken = document.getElementById("mrschicken");
 mrschicken.addEventListener('click', clickedMrsChicken);

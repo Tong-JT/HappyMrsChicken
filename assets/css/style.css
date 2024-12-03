@@ -70,9 +70,6 @@ main {
     margin: 0;
     z-index: 1;
 }
-.popup-content {
-
-}
 
 .settings-menu .close {
     right: 0;
@@ -294,6 +291,7 @@ main {
     z-index: 4;
     transition: all 0.5s linear;
     animation: goldeneggdrop 1s forwards;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1)) drop-shadow(0 0 10px rgba(255, 255, 255, 1)) brightness(1.1); 
 }
 
 
