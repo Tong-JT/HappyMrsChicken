@@ -3,7 +3,7 @@ export function createEggAtClick(event) {
     let mouseY = event.pageY;
     let egg = document.createElement('div');
     egg.innerHTML = `
-        <img src="/assets/images/egg.png" class="egg" />
+        <img src="assets/images/egg.png" class="egg" />
     `;
     let eggHorizontal = Math.random() * (28 - 8) + 8;
     egg.querySelector('img').style.left = `${mouseX - eggHorizontal}px`;

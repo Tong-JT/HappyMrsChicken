@@ -7,7 +7,7 @@ let upgrades = null;
 
 async function load() {
     let upgradesContainer = document.getElementById("upgrades-container");
-    let theJSON = await fetch("/assets/json/upgrades.json");
+    let theJSON = await fetch("assets/json/upgrades.json");
     upgrades = await theJSON.json();
     console.log(upgrades);
 
@@ -61,7 +61,7 @@ function createGoldenEgg() {
     let xPos = Math.random() * (screen.width - 0) + 0;
     let yPos = Math.random() * (screen.height - 0) + 0;
     let egg = document.createElement('div');
-    egg.innerHTML = `<img src="/assets/images/goldenegg.png" class="golden-egg" />`;
+    egg.innerHTML = `<img src="assets/images/goldenegg.png" class="golden-egg" />`;
     egg.querySelector('img').style.left = `${xPos}px`;
     egg.querySelector('img').style.top = `${yPos}px`;
     document.body.appendChild(egg);
@@ -259,12 +259,12 @@ mrschicken.addEventListener('click', clickedMrsChicken);
 
 function clickedMrsChicken() {
     mrschicken.style.animation = 'pulse 0.1s ease';
-    mrschicken.src = "/assets/images/frame2.png";
+    mrschicken.src = "assets/images/frame2.png";
     clickedMrsChickenIncreaseEgg();
     createEggAtClick(event);
     mrschicken.addEventListener('animationend', () => {
         mrschicken.style.animation = '';
-        mrschicken.src = "/assets/images/frame1.png";
+        mrschicken.src = "assets/images/frame1.png";
     });
 }
 
