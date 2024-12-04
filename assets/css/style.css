@@ -136,8 +136,8 @@ html, body {
     }
     .speedSlider::-webkit-slider-thumb,
     .speedSlider::-moz-range-thumb {
-        width: 4em !important;
-        height: 4em !important;
+        width: 50px !important;
+        height: 50px !important;
     }
 }
 
@@ -464,7 +464,7 @@ main {
     width: 1.5em;
     height: 1.5em;
     border-radius: 50%;
-    background: rgb(4, 106, 181);
+    background: white;
     border: none;
     cursor: pointer;
 }
