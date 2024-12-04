@@ -85,7 +85,7 @@ let goldenEggMultiplier = 1;
 let goldenEggTimer;
 
 function getRandomGoldenEggTime() {
-    let baseTime = Math.random() * (30000 - 18000) + 18000;
+    let baseTime = Math.random() * (300000 - 180000) + 180000;
     return baseTime * goldenEggMultiplier;
 }
 
