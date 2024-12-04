@@ -1,14 +1,113 @@
 html, body {
     height: 100%;
-    width: 100%;
     margin: 0;
     user-select: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
     &::selection {
         background-color: transparent;
     }
 }
+:root {
+    touch-action: pan-x pan-y;
+    height: 100% 
+  }
+@media screen and (max-width: 991.98px)  {
+    body {
+        padding: 20px !important;
+        overflow-x: hidden !important;
+    }
+    main {
+        flex-direction: column !important;
+        position: relative !important;
+        padding: 0 !important;
+    }
+    #left-bar {
+        width: 100% !important;
+    }
+    #stats {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        padding: 0px !important;
 
+    }
+    #item-box {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-evenly;
+        padding: 10px !important;
+        flex-wrap: wrap !important;
+    }
+    .item-title {
+        font-size: x-large !important;
+    }
+    #egg-rate-text {
+        font-size: x-large !important;
+    }
+    #background, #background2 {
+        animation: none !important;
+    }
+    #mrschicken {
+        height: 400px !important;
+    }
+    .section-title {
+        font-size: 3em !important;
+        padding-top: 10px !important;
+        -webkit-text-stroke: 10px  rgb(4, 106, 181) !important;
+    }
+    #title-text {
+        font-size: 3.5em !important;
+        -webkit-text-stroke: 15px  rgb(4, 106, 181) !important;
+    }
+    #egg-title {
+        font-size: 2.5em !important;
+    }
+    #sidebar {
+        position: relative !important;
+        padding: 0 !important;
+        padding-top: 20px !important;
+        width: 100% !important;
+        bottom: 0 !important;
+        height: 350px !important;
+    }
+    #upgrades-container {
+        overflow-y: auto;
+    }
+    .unit {
+        padding: 5px !important;
+        padding-inline: 20px !important;
+    }
+    .upgrade-name {
+        font-size: xx-large !important;
+    }
+    .upgrade-cost-text {
+        font-size: xx-large !important;
+    }
+    .bought-number {
+        font-size: xx-large !important;
+    }
+    .multiplier {
+        font-size: xx-large !important;
+    }
+    #settings {
+        width: 75px !important;
+        position: absolute !important;
+        margin-top: 10px !important;
+        bottom: inherit !important;
+    }
+    .egg {
+        width: 80px !important;
+    }
+    .golden-egg {
+        width: 120px !important;
+    }
+    .multiplier {
+        padding: 5px !important;
+    }
+}
 
 .gold-cursor {
     cursor: url('../images/Gold.cur'), auto;
@@ -31,6 +130,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
+    height: 100vh;
 }
 header {
     position: sticky;
@@ -41,6 +141,7 @@ main {
     flex-direction: row;
     flex-grow: 1;
     padding: 10px;
+    height: 100%;
 }
 
 
