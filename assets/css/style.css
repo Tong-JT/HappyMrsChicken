@@ -32,6 +32,7 @@ html, body {
         flex-direction: column !important;
         width: 100% !important;
         padding: 0px !important;
+        padding-top: 10px !important;
 
     }
     #item-box {
@@ -71,7 +72,7 @@ html, body {
         padding-top: 20px !important;
         width: 100% !important;
         bottom: 0 !important;
-        height: 350px !important;
+        height: 40% !important;
     }
     #upgrades-container {
         overflow-y: auto;
@@ -93,7 +94,7 @@ html, body {
         font-size: xx-large !important;
     }
     #settings {
-        width: 75px !important;
+        width: 100px !important;
         position: absolute !important;
         margin-top: 10px !important;
         bottom: inherit !important;
@@ -106,6 +107,16 @@ html, body {
     }
     .multiplier {
         padding: 5px !important;
+    }
+    .hover-item:hover {
+        transform: none !important;
+    }
+    .hover-box, .multiplier-block, .upgrade-button {
+        transition: none !important;
+        transform: none !important;
+    }
+    .unit:hover, .upgrade-button:hover, .multiplier-block:hover {
+        transform: none !important;
     }
 }
 
