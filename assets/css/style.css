@@ -10,10 +10,6 @@ html, body {
         background-color: transparent;
     }
 }
-:root {
-    touch-action: pan-x pan-y;
-    height: 100% 
-  }
 @media screen and (max-width: 991.98px)  {
     body {
         padding: 20px !important;
@@ -53,6 +49,7 @@ html, body {
     }
     #mrschicken {
         height: 400px !important;
+        touch-action: pan-x pan-y;
     }
     .section-title {
         font-size: 3em !important;
@@ -98,6 +95,7 @@ html, body {
         position: absolute !important;
         margin-top: 10px !important;
         bottom: inherit !important;
+        z-index: 100 !important;
     }
     .egg {
         width: 80px !important;
@@ -108,15 +106,8 @@ html, body {
     .multiplier {
         padding: 5px !important;
     }
-    .hover-item:hover {
-        transform: none !important;
-    }
-    .hover-box, .multiplier-block, .upgrade-button {
-        transition: none !important;
-        transform: none !important;
-    }
-    .unit:hover, .upgrade-button:hover, .multiplier-block:hover {
-        transform: none !important;
+    .hover-box {
+        display: none !important;
     }
 }
 
