@@ -51,10 +51,42 @@ let eggcount = document.getElementById("egg-count");
 let eggrate = document.getElementById("egg-rate");
 let eggtotal = document.getElementById("egg-total");
 
-setInterval(addEggs, 1000);
+let eggInterval = setInterval(addEggs, 1000);
+
+function adjustEggProductionRate() {
+    let eggRate = parseFloat(eggrate.innerText);
+    let intervalTime = 1000 / speedMultiplier;
+    clearInterval(eggInterval);
+    eggInterval = setInterval(addEggs, intervalTime);
+}
+
+let eggFrequencySlider = document.getElementById("egg-slider");
+
+eggFrequencySlider.addEventListener("input", updateEggFrequency);
+
+function updateEggFrequency() {
+    let sliderValue = parseInt(eggFrequencySlider.value);
+
+    if (sliderValue === 0) {
+        goldenEggMultiplier = 1;
+    } else if (sliderValue === 1) {
+        goldenEggMultiplier = 0.5;
+    } else if (sliderValue === 2) {
+        goldenEggMultiplier = 0.33;
+    }
+
+    clearTimeout(goldenEggTimer);
+    goldenEggTimer = setTimeout(createGoldenEgg, getRandomGoldenEggTime());
+}
+
+
+
+let goldenEggMultiplier = 1;
+let goldenEggTimer;
 
 function getRandomGoldenEggTime() {
-    return Math.random()  * (300000 - 180000) + 180000;
+    let baseTime = Math.random() * (30000 - 18000) + 18000;
+    return baseTime * goldenEggMultiplier;
 }
 
 function createGoldenEgg() {
@@ -74,25 +106,47 @@ function createGoldenEgg() {
         egg.remove();
         let randomEvent = Math.floor(Math.random() * 3);
 
+        let bonusText = '';
         if (randomEvent === 0) {
             goldClickFixedEggs();
+            bonusText = "Bonus Eggs";
         } else if (randomEvent === 1) {
             goldClickRateFrenzy();
+            bonusText = "Rate Frenzy - Egg Rate x3";
         } else {
             goldClickClickFrenzy();
+            bonusText = "Click Frenzy - Click Rate x7";
         }
+
+        let bonusLabel = document.createElement('div');
+        bonusLabel.className = 'golden-egg-bonus';
+        bonusLabel.innerText = bonusText;
+        bonusLabel.style.position = 'absolute';
+        bonusLabel.style.left = `${xPos}px`;
+        bonusLabel.style.top = `${yPos}px`;
+        document.body.appendChild(bonusLabel);
+
+        setTimeout(() => {
+            bonusLabel.remove();
+        }, 1000);
     });
 
-    setTimeout(createGoldenEgg, getRandomGoldenEggTime());
+    goldenEggTimer = setTimeout(createGoldenEgg, getRandomGoldenEggTime());
 }
 
 function goldClickFixedEggs() {
-    let currentEggCount = parseFloat(eggcount.innerText);
-    let eggBonus = currentEggCount * (Math.random() * (0.3 - 0.1) + 0.1);
-    eggcount.innerText = (currentEggCount + eggBonus).toFixed(1);
     let currentEggTotal = parseFloat(eggtotal.innerText);
+    let currentEggCount = parseFloat(eggcount.innerText);
+    let eggBonus = currentEggTotal * (Math.random() * (0.3 - 0.1) + 0.1);
+    eggcount.innerText = (currentEggCount + eggBonus).toFixed(1);
     eggtotal.innerText = (currentEggTotal + eggBonus).toFixed(1);
     console.log("click fixed")
+    let eggTitle = document.getElementById("egg-title");
+    eggTitle.classList.add("golden-title");
+
+    setTimeout(() => {
+        eggTitle.classList.remove("golden-title");
+    }, 500);
 }
 
 
@@ -103,25 +157,31 @@ function goldClickRateFrenzy() {
     globalMultiplier = 3;
     console.log("rate frenzy");
     increaseRate();
+    document.getElementById("background").style.backgroundColor = "gold";
 
     setTimeout(() => {
         globalMultiplier = 1;
         increaseRate();
+
+        document.getElementById("background").style.backgroundColor = "";
     }, 15000);
 }
+
 
 
 function goldClickClickFrenzy() {
     let newClickRate = originalClickRate * 7;
     document.getElementById("click-rate").innerText = newClickRate.toFixed(1);
     console.log("click frenzy");
+    document.body.classList.add('gold-cursor');
 
     setTimeout(() => {
         document.getElementById("click-rate").innerText = originalClickRate.toFixed(1);
+        document.body.classList.remove('gold-cursor');
     }, 10000);
 }
 
-createGoldenEgg();
+setTimeout(createGoldenEgg, getRandomGoldenEggTime());
 
 function increaseMultiplier() {
     let multiplierText = this;
@@ -223,6 +283,23 @@ function clickedButton() {
             upgradeButton.style.animation = '';
         });
     }
+}
+
+let rateSlider = document.getElementById("rate-slider");
+rateSlider.addEventListener("input", updateSpeed);
+
+let speedMultiplier = 1;
+
+function updateSpeed() {
+    let sliderValue = parseInt(rateSlider.value);
+    if (sliderValue === 0) {
+        speedMultiplier = 1;
+    } else if (sliderValue === 1) {
+        speedMultiplier = 2;
+    } else if (sliderValue === 2) {
+        speedMultiplier = 3;
+    }
+    adjustEggProductionRate();
 }
 
 function addEggs() {

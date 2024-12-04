@@ -9,6 +9,8 @@
         <link href="https://fonts.cdnfonts.com/css/peppa-pig" rel="stylesheet">
         <link href="https://fonts.cdnfonts.com/css/cool-school" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Albert Sans' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     </head>
 
     <body>
@@ -17,12 +19,28 @@
                 <div class="settings-menu" id="popup">
                 <div class="settings-header"> 
                     <h1 id="settings-header-text"><span >Settings</span></h1>
-                    <span class="close" id="closePopup">&times;</span>
+                    <span class="close" id="closePopup"><i class="fa fa-times"></i></span>
                 </div>
                     
                     <div class="popup-content">
-                        <p>Welcome to our website!</p>
-                        <p>Sign up to receive exclusive offers:</p>
+                        <p class="slider-header">Speed</p>
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="2" value="0" class="speedSlider" id="rate-slider">
+                            <div class="slider-labels">
+                                <span>x1</span>
+                                <span>x2</span>
+                                <span>x3</span>
+                            </div>
+                        </div>
+                        <p class="slider-header">Golden egg frequency</p>
+                        <div class="slidecontainer">
+                            <input type="range" min="0" max="2" value="0" class="speedSlider" id="egg-slider">
+                            <div class="slider-labels">
+                                <span>x1</span>
+                                <span>x2</span>
+                                <span>x3</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
