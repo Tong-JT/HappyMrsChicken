@@ -11,7 +11,7 @@ An idle click game built using **HTML**, **CSS**, and **JavaScript**.
 
 ### Live Site
 
-Happy Mrs Chicken is available to play on both desktop and mobile here: [Happy Mrs Chicken](https://tong-jt.github.io/HappyMrsChickenClickerGame/)
+Happy Mrs Chicken is available to play on both desktop and mobile here: [Happy Mrs Chicken](https://tong-jt.github.io/happy-mrs-chicken-clicker-game/)
 
 ### Tech Stack
 
@@ -24,7 +24,7 @@ Happy Mrs Chicken is available to play on both desktop and mobile here: [Happy M
 Simply clone the repository to your machine.
 
 ```
-git clone https://github.com/Tong-JT/HappyMrsChickenClickerGame.git
+git clone https://github.com/Tong-JT/happy-mrs-chicken-clicker-game.git
 ```
 Once the repository is cloned, you can can start developing on your chosen IDE. To run JavaScript in your browser and avoid CORS related errors, run the code via a local development server such as XAMPP. I used the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension on VSCode.
 
